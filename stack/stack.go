@@ -2,26 +2,30 @@ package stack
 
 import "fmt"
 
-type IStack interface {
-	Pop() interface{}
-	Push(interface{})
+type Stack interface {
+	fmt.Stringer
+
+	Pop() any
+	Push(any)
+	Len() int
+	IsEmpty() bool
 }
 
-type Stack struct {
+type stack struct {
 	head *node
 	size int
 }
 
 type node struct {
-	value interface{}
+	value any
 	next  *node
 }
 
-func NewStack() *Stack {
-	return &Stack{}
+func NewStack() Stack {
+	return &stack{}
 }
 
-func (s *Stack) Pop() (data interface{}) {
+func (s *stack) Pop() (data any) {
 	if s.size > 0 {
 		data, s.head = s.head.value, s.head.next
 		s.size--
@@ -30,20 +34,20 @@ func (s *Stack) Pop() (data interface{}) {
 	return nil
 }
 
-func (s *Stack) Push(data interface{}) {
+func (s *stack) Push(data any) {
 	s.head = &node{data, s.head}
 	s.size++
 }
 
-func (s *Stack) Len() int {
+func (s *stack) Len() int {
 	return s.size
 }
 
-func (s *Stack) IsEmpty() bool {
+func (s *stack) IsEmpty() bool {
 	return s.size == 0
 }
 
-func (s *Stack) String() (result string) {
+func (s *stack) String() (result string) {
 	temp := s.head
 	space := ""
 	for temp != nil {
